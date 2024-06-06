@@ -14,12 +14,39 @@ datasource db {
 }
 
 model Tb_User {
-  id       String @default(uuid()) @id @unique
-  username String 
-  email    String @unique
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String      @id @unique @default(uuid())
+  username  String
+  email     String      @unique
+  password  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  guilds    Tb_Member[]
 
   @@map("user")
+}
+
+model Tb_Guild {
+  id          String      @id @unique @default(uuid())
+  name        String
+  description String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  members     Tb_Member[]
+}
+
+model Tb_Member {
+  id        String   @id @unique @default(uuid())
+  nickname  String?
+  role      Db_Role
+  userId    String
+  guildId   String
+  user      Tb_User  @relation(fields: [userId], references: [id])
+  guild     Tb_Guild @relation(fields: [guildId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Db_Role {
+  ADMIN
+  MEMBER
 }
