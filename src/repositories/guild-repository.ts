@@ -1,10 +1,20 @@
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { IGuildRepository } from './interfaces/iguild-repository';
-import { Guild } from 'src/models/guild';
+import { Guild } from '../models/guild';
 import { Tb_Guild } from '@prisma/client';
 
 export class GuildRepository implements IGuildRepository {
   constructor(private readonly prismaService: PrismaService) {}
+
+  private toEntity(tb_guild: Tb_Guild): Guild {
+    return new Guild(
+      {
+        name: tb_guild.name,
+        description: tb_guild.description,
+      },
+      tb_guild.id,
+    );
+  }
 
   async get(id: string): Promise<Guild> {
     const tb_guild = await this.prismaService.tb_Guild.findUnique({
@@ -37,13 +47,17 @@ export class GuildRepository implements IGuildRepository {
     });
   }
 
-  private toEntity(tb_guild: Tb_Guild): Guild {
-    return new Guild(
-      {
-        name: tb_guild.name,
-        description: tb_guild.description,
+  getFromUser(userId: string): Promise<Guild[]> {
+    const tb_guild = this.prismaService.tb_Guild.findMany({
+      where: {
+        members: {
+          some: {
+            userId,
+          },
+        },
       },
-      tb_guild.id,
-    );
+    });
+
+    return tb_guild.then((guilds) => guilds.map((guild) => this.toEntity(guild)));
   }
 }

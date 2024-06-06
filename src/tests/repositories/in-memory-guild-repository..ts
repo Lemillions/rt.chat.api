@@ -15,4 +15,8 @@ export class InMemoryGuildRepository implements IGuildRepository {
       this.guilds.push(guild);
     }
   }
+
+  getFromUser(userId: string): Promise<Guild[]> {
+    return Promise.resolve(this.guilds);
+  }
 }

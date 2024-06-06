@@ -1,7 +1,7 @@
 import { Tb_Member } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { IMemberRepository } from './interfaces/imember-repository';
-import { Member } from 'src/models/member';
+import { Member } from '../models/member';
 
 export class MemberRepository implements IMemberRepository {
   constructor(private readonly prismaService: PrismaService) {}
