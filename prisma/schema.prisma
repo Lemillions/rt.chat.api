@@ -32,6 +32,7 @@ model Tb_Guild {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   members     Tb_Member[]
+  channels    Tb_Channel[]
 }
 
 model Tb_Member {
@@ -49,4 +50,13 @@ model Tb_Member {
 enum Db_Role {
   ADMIN
   MEMBER
+}
+
+model Tb_Channel {
+  id        String   @id @unique @default(uuid())
+  name      String
+  guildId   String
+  guild     Tb_Guild @relation(fields: [guildId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

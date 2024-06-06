@@ -16,20 +16,6 @@ export class GuildRepository implements IGuildRepository {
     );
   }
 
-  async get(id: string): Promise<Guild> {
-    const tb_guild = await this.prismaService.tb_Guild.findUnique({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!tb_guild) {
-      return null;
-    }
-
-    return this.toEntity(tb_guild);
-  }
-
   save(guild: Guild) {
     return this.prismaService.tb_Guild.upsert({
       where: {
@@ -47,8 +33,22 @@ export class GuildRepository implements IGuildRepository {
     });
   }
 
-  getFromUser(userId: string): Promise<Guild[]> {
-    const tb_guild = this.prismaService.tb_Guild.findMany({
+  async get(id: string): Promise<Guild> {
+    const tb_guild = await this.prismaService.tb_Guild.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!tb_guild) {
+      return null;
+    }
+
+    return this.toEntity(tb_guild);
+  }
+
+  async getFromUser(userId: string): Promise<Guild[]> {
+    const tb_guild = await this.prismaService.tb_Guild.findMany({
       where: {
         members: {
           some: {
@@ -58,6 +58,6 @@ export class GuildRepository implements IGuildRepository {
       },
     });
 
-    return tb_guild.then((guilds) => guilds.map((guild) => this.toEntity(guild)));
+    return tb_guild.map((guild) => this.toEntity(guild));
   }
 }

@@ -18,6 +18,27 @@ export class MemberRepository implements IMemberRepository {
     );
   }
 
+  async save(member: Member): Promise<void> {
+    await this.prismaService.tb_Member.upsert({
+      where: {
+        id: member.getId(),
+      },
+      update: {
+        guildId: member.getGuildId(),
+        nickname: member.getNickname(),
+        role: member.getRole(),
+        userId: member.getUserId(),
+      },
+      create: {
+        id: member.getId(),
+        guildId: member.getGuildId(),
+        nickname: member.getNickname(),
+        role: member.getRole(),
+        userId: member.getUserId(),
+      },
+    });
+  }
+
   async get(id: string): Promise<Member> {
     const tb_member = await this.prismaService.tb_Member.findUnique({
       where: {
@@ -40,26 +61,5 @@ export class MemberRepository implements IMemberRepository {
     });
 
     return tb_members.map((tb_member) => this.toEntity(tb_member));
-  }
-
-  async save(member: Member): Promise<void> {
-    await this.prismaService.tb_Member.upsert({
-      where: {
-        id: member.getId(),
-      },
-      update: {
-        guildId: member.getGuildId(),
-        nickname: member.getNickname(),
-        role: member.getRole(),
-        userId: member.getUserId(),
-      },
-      create: {
-        id: member.getId(),
-        guildId: member.getGuildId(),
-        nickname: member.getNickname(),
-        role: member.getRole(),
-        userId: member.getUserId(),
-      },
-    });
   }
 }

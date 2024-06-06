@@ -1,4 +1,4 @@
-import { Member } from "src/models/member";
+import { Member } from 'src/models/member';
 
 export interface IMemberRepository {
   save(member: Member): Promise<void>;
