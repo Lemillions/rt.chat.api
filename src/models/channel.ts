@@ -15,6 +15,7 @@ export class Channel {
   constructor(props: IChannelProps, id?: string) {
     this.setId(id || randomUUID());
     this.setName(props.name);
+    this.setGuildId(props.guildId);
   }
 
   getId() {

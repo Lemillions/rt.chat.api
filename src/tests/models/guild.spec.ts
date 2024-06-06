@@ -22,7 +22,7 @@ describe('Guild', () => {
 
     const createGuild = () => Guild.create(guildProps);
 
-    expect(createGuild).toThrow('O nome da guilda deve ter no mínimo 3 caracteres.');
+    expect(createGuild).toThrow('O nome do servidor deve ter no mínimo 3 caracteres.');
   });
 
   it('should throw an error if the guild description has less than 10 characters', () => {
@@ -33,6 +33,6 @@ describe('Guild', () => {
 
     const createGuild = () => Guild.create(guildProps);
 
-    expect(createGuild).toThrow('A descrição da guilda deve ter no mínimo 10 caracteres.');
+    expect(createGuild).toThrow('A descrição do servidor deve ter no mínimo 10 caracteres.');
   });
 });

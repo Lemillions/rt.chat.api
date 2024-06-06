@@ -36,14 +36,14 @@ export class Guild {
 
   setName(name: string) {
     if (name.length < 3) {
-      throw new Error('O nome da guilda deve ter no mínimo 3 caracteres.');
+      throw new Error('O nome do servidor deve ter no mínimo 3 caracteres.');
     }
     this.props.name = name;
   }
 
   setDescription(description: string) {
     if (description.length < 10) {
-      throw new Error('A descrição da guilda deve ter no mínimo 10 caracteres.');
+      throw new Error('A descrição do servidor deve ter no mínimo 10 caracteres.');
     }
     this.props.description = description;
   }

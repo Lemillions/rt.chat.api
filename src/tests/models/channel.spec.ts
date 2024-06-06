@@ -6,7 +6,9 @@ describe('Channel', () => {
 
     const channel = Channel.create(props);
 
+    expect(channel).toBeInstanceOf(Channel);
     expect(channel.getName()).toBe('Channel 1');
+    expect(channel.getGuildId()).toBe('guildId');
   });
 
   it('should throw an error if the channel name is less than 3 characters', () => {
