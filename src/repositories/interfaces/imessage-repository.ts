@@ -1,4 +1,4 @@
-import { Message } from "src/models/message";
+import { Message } from "../../models/message";
 
 export interface IMessageRepository {
   save(message: Message);

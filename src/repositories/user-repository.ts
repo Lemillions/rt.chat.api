@@ -1,6 +1,6 @@
 import { User } from '../models/user';
 import { IUserRepository } from './interfaces/iuser-repository';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { Tb_User } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 

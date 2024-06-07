@@ -1,5 +1,5 @@
-import { Member } from 'src/models/member';
-import { IMemberRepository } from 'src/repositories/interfaces/imember-repository';
+import { Member } from '../../models/member';
+import { IMemberRepository } from '../../repositories/interfaces/imember-repository';
 
 export class InMemoryMemberRepository implements IMemberRepository {
   private members: Member[] = [];

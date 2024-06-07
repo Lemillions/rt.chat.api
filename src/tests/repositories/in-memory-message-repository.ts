@@ -1,4 +1,4 @@
-import { Message } from "src/models/message";
+import { Message } from "../../models/message";
 import { IMessageRepository } from "../../repositories/interfaces/imessage-repository";
 
 export class InMemoryMessageRepository implements IMessageRepository {

@@ -1,5 +1,5 @@
-import { Guild } from 'src/models/guild';
-import { IGuildRepository } from 'src/repositories/interfaces/iguild-repository';
+import { Guild } from '../../models/guild';
+import { IGuildRepository } from '../../repositories/interfaces/iguild-repository';
 
 export class InMemoryGuildRepository implements IGuildRepository {
   private guilds: Guild[] = [];
