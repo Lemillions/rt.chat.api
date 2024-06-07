@@ -2,7 +2,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { IGuildRepository } from './interfaces/iguild-repository';
 import { Guild } from '../models/guild';
 import { Tb_Guild } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GuildRepository implements IGuildRepository {
   constructor(private readonly prismaService: PrismaService) {}
 

@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, } from "@nestjs/common";
 import { Message } from "../../models/message";
 import { ChannelRepository } from "../../repositories/channel-repository";
 import { IChannelRepository } from "../../repositories/interfaces/ichannel-repository";
@@ -6,9 +6,8 @@ import { IMemberRepository } from "../../repositories/interfaces/imember-reposit
 import { IMessageRepository } from "../../repositories/interfaces/imessage-repository";
 import { MemberRepository } from "../../repositories/member-repository";
 import { MessageRepository } from "../../repositories/message-repository";
-import { WebSocketGateway } from '@nestjs/websockets';
 
-@WebSocketGateway()
+@Injectable()
 export class CreateMessageService {
   constructor(
     @Inject(MessageRepository)

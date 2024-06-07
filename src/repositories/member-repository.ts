@@ -2,7 +2,9 @@ import { Tb_Member } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { IMemberRepository } from './interfaces/imember-repository';
 import { Member } from '../models/member';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class MemberRepository implements IMemberRepository {
   constructor(private readonly prismaService: PrismaService) {}
 

@@ -2,7 +2,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { IChannelRepository } from './interfaces/ichannel-repository';
 import { Channel } from '../models/channel';
 import { Tb_Channel } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class ChannelRepository implements IChannelRepository {
   constructor(private readonly prismaService: PrismaService) {}
 

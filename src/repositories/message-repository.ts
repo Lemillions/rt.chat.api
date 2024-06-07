@@ -2,7 +2,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Message } from '../models/message';
 import { IMessageRepository } from './interfaces/imessage-repository';
 import { Tb_Message } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class MessageRepository implements IMessageRepository {
   constructor(private readonly prismaService: PrismaService) {}
   private toEntity(tb_message: Tb_Message): Message {

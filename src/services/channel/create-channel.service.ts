@@ -1,12 +1,16 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Channel } from '../../models/channel';
 import { IChannelRepository } from '../../repositories/interfaces/ichannel-repository';
 import { IGuildRepository } from '../../repositories/interfaces/iguild-repository';
+import { ChannelRepository } from 'src/repositories/channel-repository';
+import { GuildRepository } from 'src/repositories/guild-repository';
 
 @Injectable()
 export class CreateChannelService {
   constructor(
+    @Inject(ChannelRepository)
     private readonly channelRepository: IChannelRepository,
+    @Inject(GuildRepository)
     private readonly guildRepository: IGuildRepository,
   ) {}
 
