@@ -14,23 +14,24 @@ datasource db {
 }
 
 model Tb_User {
-  id        String      @id @unique @default(uuid())
+  id        String       @id @unique @default(uuid())
   username  String
-  email     String      @unique
+  email     String       @unique
   password  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   guilds    Tb_Member[]
+  messages  Tb_Message[]
 
   @@map("user")
 }
 
 model Tb_Guild {
-  id          String      @id @unique @default(uuid())
+  id          String       @id @unique @default(uuid())
   name        String
   description String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   members     Tb_Member[]
   channels    Tb_Channel[]
 }
@@ -53,10 +54,22 @@ enum Db_Role {
 }
 
 model Tb_Channel {
-  id        String   @id @unique @default(uuid())
+  id        String       @id @unique @default(uuid())
   name      String
   guildId   String
-  guild     Tb_Guild @relation(fields: [guildId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  guild     Tb_Guild     @relation(fields: [guildId], references: [id])
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  messages  Tb_Message[]
+}
+
+model Tb_Message {
+  id        String     @id @unique @default(uuid())
+  content   String
+  userId    String
+  channelId String
+  user      Tb_User    @relation(fields: [userId], references: [id])
+  channel   Tb_Channel @relation(fields: [channelId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }

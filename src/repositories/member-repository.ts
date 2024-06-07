@@ -62,4 +62,19 @@ export class MemberRepository implements IMemberRepository {
 
     return tb_members.map((tb_member) => this.toEntity(tb_member));
   }
+
+  async getByUserOnGuild(userId: string, guildId: string): Promise<Member> {
+    const tb_member = await this.prismaService.tb_Member.findFirst({
+      where: {
+        userId,
+        guildId,
+      },
+    });
+
+    if (!tb_member) {
+      return null;
+    }
+
+    return this.toEntity(tb_member);
+  }
 }

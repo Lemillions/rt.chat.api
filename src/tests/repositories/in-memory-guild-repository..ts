@@ -3,8 +3,8 @@ import { IGuildRepository } from 'src/repositories/interfaces/iguild-repository'
 
 export class InMemoryGuildRepository implements IGuildRepository {
   private guilds: Guild[] = [];
-  get(id: string): Promise<Guild> {
-    return Promise.resolve(this.guilds.find((guild) => guild.getId() === id));
+  async get(id: string): Promise<Guild> {
+    return this.guilds.find((guild) => guild.getId() === id);
   }
 
   save(guild: Guild) {

@@ -13,15 +13,15 @@ export class InMemoryChannelRepository implements IChannelRepository {
     }
   }
 
-  get(id: string): Promise<Channel> {
-    return Promise.resolve(this.channels.find((c) => c.getId() === id));
+  async get(id: string): Promise<Channel> {
+    return this.channels.find((c) => c.getId() === id);
   }
 
-  getByGuildId(guildId: string): Promise<Channel[]> {
-    return Promise.resolve(this.channels.filter((c) => c.getId() === guildId));
+  async getByGuildId(guildId: string): Promise<Channel[]> {
+    return this.channels.filter((c) => c.getId() === guildId);
   }
 
-  getByNameOnGuild(name: string, guildId: string): Promise<Channel> {
-    return Promise.resolve(this.channels.find((c) => c.getName() === name && c.getGuildId() === guildId));
+  async getByNameOnGuild(name: string, guildId: string): Promise<Channel> {
+    return this.channels.find((c) => c.getName() === name && c.getGuildId() === guildId);
   }
 }

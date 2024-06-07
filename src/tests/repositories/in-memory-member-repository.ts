@@ -21,4 +21,8 @@ export class InMemoryMemberRepository implements IMemberRepository {
       this.members.push(member);
     }
   }
+
+  async getByUserOnGuild(userId: string, guildId: string): Promise<Member> {
+    return this.members.find((member) => member.getUserId() === userId && member.getGuildId() === guildId);
+  }
 }
