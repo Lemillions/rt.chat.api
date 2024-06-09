@@ -56,6 +56,15 @@ export class Message {
     this.props.channelId = channelId;
   }
 
+  toJSON() {
+    return {
+      id: this.getId(),
+      content: this.getContent(),
+      userId: this.getUserId(),
+      channelId: this.getChannelId(),
+    };
+  }
+
   static create(props: IMessageProps) {
     return new Message(props);
   }

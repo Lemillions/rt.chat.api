@@ -6,6 +6,8 @@ import { IMemberRepository } from '../../repositories/interfaces/imember-reposit
 import { IMessageRepository } from '../../repositories/interfaces/imessage-repository';
 import { MemberRepository } from '../../repositories/member-repository';
 import { MessageRepository } from '../../repositories/message-repository';
+import { Channel } from 'src/models/channel';
+import { User } from 'src/models/user';
 
 @Injectable()
 export class JoinChannelService {
@@ -24,7 +26,10 @@ export class JoinChannelService {
   }: {
     channelId: string;
     userId: string;
-  }): Promise<Message[]> {
+  }): Promise<{
+    channel: Channel;
+    messages: { message: Message; user: User }[];
+  }> {
     const channel = await this.channelRepository.get(channelId);
 
     if (!channel) {
@@ -40,6 +45,11 @@ export class JoinChannelService {
       throw new Error('Usuário não pertence a esse servidor.');
     }
 
-    return await this.messageRepository.getByChannelId(channelId);
+    const messages = await this.messageRepository.getByChannelIdWithUser(channelId);
+
+    return {
+      channel,
+      messages,
+    };
   }
 }

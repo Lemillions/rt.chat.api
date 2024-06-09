@@ -4,6 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { RepositoryModule } from 'src/repositories/repository.module';
 import { MeController } from 'src/app/controllers/auth/me.controller';
 import { LoginController } from 'src/app/controllers/auth/login.controller';
+import { RegisterController } from 'src/app/controllers/auth/register.controller';
+import { CreateUserService } from '../user/create-user.service';
 
 @Module({
   imports: [
@@ -14,8 +16,8 @@ import { LoginController } from 'src/app/controllers/auth/login.controller';
       signOptions: { expiresIn: '2d' },
     }),
   ],
-  providers: [SigninService],
-  controllers: [MeController, LoginController],
+  providers: [SigninService, CreateUserService],
+  controllers: [MeController, LoginController, RegisterController],
   exports: [SigninService],
 })
 export class AuthModule {}

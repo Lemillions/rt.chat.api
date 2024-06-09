@@ -1,8 +1,9 @@
 import { PrismaService } from '../prisma/prisma.service';
 import { Message } from '../models/message';
 import { IMessageRepository } from './interfaces/imessage-repository';
-import { Tb_Message } from '@prisma/client';
+import { Tb_Message, Tb_User } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
+import { User } from '../models/user';
 
 @Injectable()
 export class MessageRepository implements IMessageRepository {
@@ -15,6 +16,17 @@ export class MessageRepository implements IMessageRepository {
         channelId: tb_message.channelId,
       },
       tb_message.id,
+    );
+  }
+
+  private userToEntity(tb_user: Tb_User): User {
+    return new User(
+      {
+        username: tb_user.username,
+        email: tb_user.email,
+        password: tb_user.password,
+      },
+      tb_user.id,
     );
   }
 
@@ -53,5 +65,17 @@ export class MessageRepository implements IMessageRepository {
     });
 
     return tb_messages.map((tb_message) => this.toEntity(tb_message));
+  }
+
+  async getByChannelIdWithUser(channelId: string) {
+    const tb_messages = await this.prismaService.tb_Message.findMany({
+      where: { channelId },
+      include: { user: true },
+    });
+
+    return tb_messages.map((tb_message) => ({
+      message: this.toEntity(tb_message),
+      user: this.userToEntity(tb_message.user),
+    }));
   }
 }

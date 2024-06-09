@@ -4,6 +4,8 @@ import { IChannelRepository } from '../../repositories/interfaces/ichannel-repos
 import { IGuildRepository } from '../../repositories/interfaces/iguild-repository';
 import { ChannelRepository } from '../../repositories/channel-repository';
 import { GuildRepository } from '../../repositories/guild-repository';
+import { MemberRepository } from '../../repositories/member-repository';
+import { IMemberRepository } from '../../repositories/interfaces/imember-repository';
 
 @Injectable()
 export class CreateChannelService {
@@ -12,13 +14,25 @@ export class CreateChannelService {
     private readonly channelRepository: IChannelRepository,
     @Inject(GuildRepository)
     private readonly guildRepository: IGuildRepository,
+    @Inject(MemberRepository)
+    private readonly memberRepository: IMemberRepository,
   ) {}
 
-  async execute({ name, guildId }) {
+  async execute({userId, name, guildId, }) {
     const guild = await this.guildRepository.get(guildId);
 
     if (!guild) {
       throw new BadRequestException('Servidor não encontrado');
+    }
+
+    const member = await this.memberRepository.getByUserOnGuild(userId, guildId);
+
+    if (!member) {
+      throw new BadRequestException('Você não é membro deste servidor');
+    }
+
+    if (!member.isAdmin()) {
+      throw new BadRequestException('Você não tem permissão para criar canais neste servidor');
     }
 
     const channelExists = await this.channelRepository.getByNameOnGuild(name, guildId);
@@ -29,7 +43,7 @@ export class CreateChannelService {
 
     const channel = Channel.create({ name, guildId });
 
-    this.channelRepository.save(channel);
+    await this.channelRepository.save(channel);
 
     return channel;
   }

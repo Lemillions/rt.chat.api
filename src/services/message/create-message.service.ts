@@ -6,6 +6,9 @@ import { IMemberRepository } from "../../repositories/interfaces/imember-reposit
 import { IMessageRepository } from "../../repositories/interfaces/imessage-repository";
 import { MemberRepository } from "../../repositories/member-repository";
 import { MessageRepository } from "../../repositories/message-repository";
+import { MessagesGateway } from "../../app/gateways/message.gateway";
+import { UserRepository } from "../../repositories/user-repository";
+import { IUserRepository } from "../../repositories/interfaces/iuser-repository";
 
 @Injectable()
 export class CreateMessageService {
@@ -15,7 +18,10 @@ export class CreateMessageService {
     @Inject(ChannelRepository)
     private readonly channelRepository: IChannelRepository,
     @Inject(MemberRepository)
-    private readonly memberRepository: IMemberRepository
+    private readonly memberRepository: IMemberRepository,
+    @Inject(UserRepository)
+    private readonly userRepository: IUserRepository,
+    private readonly messagesGateway: MessagesGateway,
   ) {}
 
   async execute({
@@ -39,9 +45,16 @@ export class CreateMessageService {
       throw new BadRequestException("Usuario não pertence a esse servidor.");
     }
 
+    const user = await this.userRepository.get(userId);
+
     const message = Message.create({ content, channelId, userId });
 
     await this.messageRepository.save(message);
+
+    this.messagesGateway.trigerEvent(channelId, "messageCreated", {
+      ...message.toJSON(),
+      user: user.toJSON(),
+    });
 
     return message;
   }

@@ -68,7 +68,21 @@ export class Member {
     this.props.nickname = nickname;
   }
 
+  public isAdmin() {
+    return this.props.role === Role.ADMIN;
+  }
+
   static create(props: IMembrerProps): Member {
     return new Member(props);
+  }
+
+  toJSON() {
+    return {
+      id: this.getId(),
+      nickname: this.getNickname(),
+      role: this.getRole(),
+      userId: this.getUserId(),
+      guildId: this.getGuildId(),
+    };
   }
 }

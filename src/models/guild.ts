@@ -51,4 +51,12 @@ export class Guild {
   static create(props: IGuildProps) {
     return new Guild(props);
   }
+
+  toJSON() {
+    return {
+      id: this.getId(),
+      name: this.getName(),
+      description: this.getDescription(),
+    };
+  }
 }

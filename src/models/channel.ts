@@ -45,6 +45,14 @@ export class Channel {
     this.props.guildId = guildId;
   }
 
+  toJSON() {
+    return {
+      id: this.getId(),
+      name: this.getName(),
+      guildId: this.getGuildId(),
+    };
+  }
+
   static create(props: IChannelProps) {
     return new Channel(props);
   }

@@ -1,3 +1,4 @@
+import { User } from "../../models/user";
 import { Message } from "../../models/message";
 import { IMessageRepository } from "../../repositories/interfaces/imessage-repository";
 
@@ -19,5 +20,18 @@ export class InMemoryMessageRepository implements IMessageRepository {
 
   async getByChannelId(channelId: string): Promise<Message[]> {
     return this.messages.filter((m) => m.getChannelId() === channelId);
+  }
+
+  async getByChannelIdWithUser(channelId: string): Promise<{ message: Message; user: User; }[]> {
+    return this.messages.filter((m) => m.getChannelId() === channelId).map((m) => {
+      return {
+        message: m,
+        user: new User({
+          email: 'test@gmail.com',
+          password: '123456',
+          username: 'test',
+        })
+      }
+    });
   }
 }

@@ -1,15 +1,15 @@
 import { Controller, Get, Request, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../../../app/infra/auth/auth.guard';
+import { AuthGuard } from '../../../infra/auth/guards/auth.guard';
 import { User } from '../../../models/user';
+import { UserDecorator } from 'src/app/decorators/user.decorator';
 
 @Controller()
 export class MeController {
   constructor() {}
 
-  @Get('/me')
+  @Get('/user')
   @UseGuards(AuthGuard)
-  async handle(@Request() req) {
-    const user: User = await req.user;
+  async handle(@UserDecorator() user: User) {
     return user.toJSON();
   }
 }

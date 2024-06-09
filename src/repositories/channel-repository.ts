@@ -23,12 +23,12 @@ export class ChannelRepository implements IChannelRepository {
       where: {
         id: channel.getId(),
       },
-      update: {
+      create: {
+        id: channel.getId(),
         name: channel.getName(),
         guildId: channel.getGuildId(),
       },
-      create: {
-        id: channel.getId(),
+      update: {
         name: channel.getName(),
         guildId: channel.getGuildId(),
       },

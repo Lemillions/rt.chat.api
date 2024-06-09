@@ -7,6 +7,7 @@ import { CreateUserService } from "./user/create-user.service";
 import { SigninService } from "./auth/signin.service";
 import { JoinChannelService } from "./channel/join-channel.service";
 import { AuthModule } from "./auth/auth.module";
+import { MessagesGateway } from "src/app/gateways/message.gateway";
 
 @Module({
   imports: [RepositoryModule, AuthModule],
@@ -17,8 +18,10 @@ import { AuthModule } from "./auth/auth.module";
     CreateUserService,
     JoinChannelService,
     SigninService,
+    MessagesGateway
   ],
   exports: [
+    RepositoryModule,
     CreateChannelService,
     CreateGuildService,
     CreateMessageService,

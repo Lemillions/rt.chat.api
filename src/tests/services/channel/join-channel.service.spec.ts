@@ -64,7 +64,7 @@ describe('JoinChannelService', () => {
       memberRepository,
     );
 
-    const messages: Message[] = await joinChannelService.execute({
+    const { messages } = await joinChannelService.execute({
       channelId: 'channel-id',
       userId: 'user-id',
     });
@@ -114,7 +114,10 @@ describe('JoinChannelService', () => {
     );
 
     expect(
-      joinChannelService.execute({ channelId: 'channel-id', userId: 'user-id' }),
+      joinChannelService.execute({
+        channelId: 'channel-id',
+        userId: 'user-id',
+      }),
     ).rejects.toThrow('Usuário não pertence a esse servidor.');
   });
 });

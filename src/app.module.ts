@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PrismaModule } from './prisma/prisma.module';
-import { ServiceModule } from './services/service.module';
+import { GuildModule } from './app/controllers/guild/guild.module';
+import { ChannelModule } from './app/controllers/channel/channel.module';
+import { MessageModule } from './app/controllers/message/message.module';
 
 @Module({
-  imports: [PrismaModule, ServiceModule],
+  imports: [PrismaModule, GuildModule, ChannelModule, MessageModule],
   controllers: [],
   providers: [],
 })
